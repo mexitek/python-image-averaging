@@ -1,6 +1,6 @@
 # Geek Art
 
-Python Script, derived from Neil Kandalgaonkar <brevity.org>, creates an image average of a group of images located in directory `source`.
+Python Script, derived from Neil Kandalgaonkar (brevity.org), creates an image average of a group of images located in directory `source`.
 
 ## Dependencies
 
@@ -12,7 +12,7 @@ Python Script, derived from Neil Kandalgaonkar <brevity.org>, creates an image a
 ```
 git clone git://github.com/mexitek/python-image-averaging.git
 cd python-image-averaging
-python python average_machine.py [OPTIONS]
+python average_machine.py [OPTIONS]
 ```
 
 ### Options
