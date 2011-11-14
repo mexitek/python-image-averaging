@@ -1,54 +1,37 @@
 #!/usr/bin/python
-"""Usage: python average.py [OPTIONS] TAGS
-TAGS is a space delimited list of tags
 
-OPTIONS:
-  -w screenwidth or --width   screenwidth
-  -h screenheight or --height screenheight
-  -f filename or --file       filename
-  -n photos or --number       photos
-  -u or --unique              unique users
-  -p or --page                start collection at search page idx 
-                                 0 = first page
-
-Requires:
- - Python Imaging Library [http://www.pythonware.com/products/pil/]
- - Python >= 2.2
-
-"""
-
-# THIS SOFTWARE IS SUPPLIED WITHOUT WARRANTY OF ANY KIND, AND MAY BE
-# COPIED, MODIFIED OR DISTRIBUTED IN ANY WAY, AS LONG AS THIS NOTICE
-# AND ACKNOWLEDGEMENT OF AUTHORSHIP REMAIN.
-
-__author__ = "Neil Kandalgaonkar <neilk(a)brevity.org>"
+__author__ = "Arlo Carreon <github.com/mexitek>"
 
 
 # Purpose: 
-#  generate an "average" image from Flickr based on tags.
-# 
-# This may have to be completely rewritten. It's very buggy and has fits and starts,
-# not to mention Flickr's occasional slowness. There is a problem with the image
-# slowly converging on blackness.
-# 
-# We should really cache the images on disk (and the search results)
-# and then have at them.
+#  generate an "average" image from local directory
 
 
 
 import sys
 import os
-import glob
+import re
 import math
 import Image
 import time
 
 # Type of extensions you are willing to accept
-ext = ['jpeg','png','jpg'];
+ext = "JPG|jpeg|jpg|png"
+# Base path for source images and average destination
+source_path = "./source/"
+average_path = "./average/"
 
-def get_photos_from_directory( dir ):
-	for infile in glob.glob( os.path.join(path, '*.[' + ext.join('|') + ']') ):
-	    print "current file is: " + infile
+
+# Function grabs all images in a folder
+def get_photos_from_directory( path ):
+	listing = os.listdir(path)
+	images = []
+	regex_str = '.*\.['+ext+']'
+	print "Looking for matching files: "+regex_str
+	for infile in listing:
+		if re.match( regex_str, infile, re.I|re.X ):
+			images.append(infile)
+	return images
 
 def resize(im, screen, standard_area):
     
@@ -99,15 +82,13 @@ def create_average(screen, photos):
     
     for i in range(len(photos)):
 
-        debug("doing photo id %s" % photos[i].id)
+        debug("processing >> %s" % photos[i])
         
         try:
             im = load_image(photos[i]);
-        except FlickrError: 
-            debug("FlickrError")
+        except: 
+            debug("Bad Image? Script no likie.")
             continue
-                
-        im.save("orig/%03d.jpg" % i)
         
         im = resize(im, screen, standard_area);
         
@@ -126,22 +107,15 @@ def create_average(screen, photos):
                            # bits of depth. This may account for the slow darkening (?)
                            # may be better to combine images in a tree
         average = Image.blend(average, im_frame, alpha);
-        
-        if not (i % 10):
-            average.save('progress-%03d.jpg' % i)
 
         # is this necessary? jclark had it.
         del im
-        
-        time.sleep(2) # be nice to their server
 
     return average
         
 
 def load_image(photo):
-    url = photo.getURL(size='Medium', urlType='source')
-    file, mime = urllib.urlretrieve(url)
-    im = Image.open(file)
+    im = Image.open(source_path+photo)
     return im
     
 
@@ -158,7 +132,7 @@ def main(*argv):
         print __doc__
         return 1
 
-    file = 'average.jpg'
+    file = average_path + str(time.time()) + '.jpg'
     width = 500
     height = 500
     n = 100
@@ -182,23 +156,17 @@ def main(*argv):
             print "Unknown argument: %s" % o
             print __doc__
             return 1
-        
-    if len(args) == 0:
-        print "You must specify at least one tag"
-        print __doc__
-        return 1
-    
-    tags = [item for item in args]
-    
+
+    # Set the screen
     screen = (width, height)
 
 
-    photos = get_photos_from_directory('./source')
+    photos = get_photos_from_directory(source_path)
     average = create_average(screen, photos)
     average.save(file)
 
-#if __name__ == '__main__':
-    #sys.exit(main(*sys.argv))
+if __name__ == '__main__':
+    sys.exit(main(*sys.argv))
 
 # Trying out the new function
-get_photos_from_directory('~/Dropbox/Fam\\\ Berumen')
+#get_photos_from_directory('./source')
