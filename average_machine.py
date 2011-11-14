@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-__author__ = "Arlo Carreon <github.com/mexitek>"
+__author__ = "Arlo Carreon <http://arlocarreon.com>"
 
 
 # Purpose: 
