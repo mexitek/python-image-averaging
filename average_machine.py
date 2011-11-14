@@ -37,51 +37,18 @@ __author__ = "Neil Kandalgaonkar <neilk(a)brevity.org>"
 
 
 import sys
-import urllib
+import os
+import glob
 import math
 import Image
-import flickr
 import time
 
-from flickr import FlickrError
+# Type of extensions you are willing to accept
+ext = ['jpeg','png','jpg'];
 
-
-# we want to get N photos that match the tag.
-def get_photos_for_tags(tags, number=50, unique_owners=False, start_page=0):
-
-    photos = []
-    seen_owner = {}
-    page = start_page
-    need_more = True
-    
-    
-    debug("starting to get photos...")
-    
-    while (need_more):
-        page += 1
-    
-        debug("page %s of photo search" % page)
-            
-        for p in flickr.photos_search(tags=tags, tag_mode='all', page=page):
-            debug ("photo id %s" % p.id)
-            
-            if unique_owners:
-                
-                # silly thing is unicode, although just a number.
-                uid = p.owner.id.encode('ascii') 
-                debug ("   photo has uid %s" % uid)
-
-                if seen_owner.has_key(uid): continue
-                seen_owner[uid] = 1
-            
-            photos.append(p)
-            if (len(photos) == number):
-                need_more = False
-                break
-        
-    return photos
-
-
+def get_photos_from_directory( dir ):
+	for infile in glob.glob( os.path.join(path, '*.[' + ext.join('|') + ']') ):
+	    print "current file is: " + infile
 
 def resize(im, screen, standard_area):
     
@@ -226,9 +193,12 @@ def main(*argv):
     screen = (width, height)
 
 
-    photos = get_photos_for_tags(tags, n, unique_owners, start_page)
+    photos = get_photos_from_directory('./source')
     average = create_average(screen, photos)
     average.save(file)
 
-if __name__ == '__main__':
-    sys.exit(main(*sys.argv))
+#if __name__ == '__main__':
+    #sys.exit(main(*sys.argv))
+
+# Trying out the new function
+get_photos_from_directory('~/Dropbox/Fam\\\ Berumen')
