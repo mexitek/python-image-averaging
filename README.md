@@ -7,6 +7,15 @@ Python Script, derived from Neil Kandalgaonkar (brevity.org), creates an image a
 * Python Imaging Library [http://www.pythonware.com/products/pil/]
 * Python >= 2.2
 
+### Python Imaging Library (PIL) on Mac OSx
+
+All you need to do is install Python Imaging Library via `easy_install`
+
+```
+easy_install pil
+```
+
+
 ## Instructions
 
 ```
