@@ -145,7 +145,7 @@ def main(*argv):
         elif o in ('-h', '--height'):
             height = int(a)
         elif o in ('-f', '--file'):
-            file = a
+            file = average_path + a
         elif o in ('-n', '--number'):
             n = int(a)
         elif o in ('-u', '--unique'):
