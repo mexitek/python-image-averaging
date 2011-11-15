@@ -167,6 +167,3 @@ def main(*argv):
 
 if __name__ == '__main__':
     sys.exit(main(*sys.argv))
-
-# Trying out the new function
-#get_photos_from_directory('./source')
