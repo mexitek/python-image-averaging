@@ -21,6 +21,7 @@ easy_install pil
 ```
 git clone git://github.com/mexitek/python-image-averaging.git
 cd python-image-averaging
+# Place your images in source/ folder
 python average_machine.py [OPTIONS]
 ```
 
