@@ -11,14 +11,14 @@ Python Script, derived from Neil Kandalgaonkar (brevity.org), creates an image a
 
 All you need to do is install Python Imaging Library via `easy_install`
 
-```
+```shell
 easy_install pil
 ```
 
 
 ## Instructions
 
-```
+```shell
 git clone git://github.com/mexitek/python-image-averaging.git
 cd python-image-averaging
 # Place your images in source/ folder
