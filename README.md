@@ -33,5 +33,7 @@ python average_machine.py [OPTIONS]
 -f filename or --file       filename
 -n photos or --number       photos
 ```
+## Image Out Example
+<img src="https://raw.github.com/mexitek/python-image-averaging/master/average/1321255741.95.jpg" />
 
 # License: [arlo.mit-license.org](http://arlo.mit-license.org)
