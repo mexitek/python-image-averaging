@@ -124,15 +124,15 @@ def debug(msg):
 
 def main(*argv):
     from getopt import getopt, GetoptError
+    global source_path
 
     try:
-        (opts, args) = getopt(argv[1:], 'p:w:h:f:n:u', ['page', 'width', 'height', 'file', 'number','unique'])
+        (opts, args) = getopt(argv[1:], 'p:w:h:f:n:u:s:a:', ['page', 'width', 'height', 'file', 'number','unique','source','average'])
     except GetoptError, e:
         print e
         print __doc__
         return 1
 
-    file = average_path + str(time.time()) + '.jpg'
     width = 500
     height = 500
     n = 100
@@ -152,6 +152,10 @@ def main(*argv):
            unique_owners = True
         elif o in ('-p', '--page'):
            start_page = int(a)
+        elif o in ('-s', '--source'):
+	  source_path = a
+	elif o in ('-a', '--average'):
+	  average_path = a
         else:
             print "Unknown argument: %s" % o
             print __doc__
@@ -160,6 +164,7 @@ def main(*argv):
     # Set the screen
     screen = (width, height)
 
+    file = average_path + str(time.time()) + '.jpg'
 
     photos = get_photos_from_directory(source_path)
     average = create_average(screen, photos)
